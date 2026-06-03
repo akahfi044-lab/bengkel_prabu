@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Informasi Bengkel Prabu</title>
+    <style>
+        /* --- CSS Global --- */
+        body { 
+            font-family: Arial, sans-serif; 
+            margin: 0; 
+            padding: 0; 
+            background-color: #f4f6f9; 
+            color: #333;
+        }
+        
+        /* Menyembunyikan semua halaman secara default */
+        .page { 
+            display: none; 
+        }
+        
+        /* Halaman aktif yang akan ditampilkan */
+        .page.active { 
+            display: block; 
+        }
+
+        /* --- CSS Form (Login & Register) --- */
+        .auth-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .card { 
+            border: 1px solid #ccc; 
+            padding: 30px; 
+            border-radius: 8px; 
+            width: 100%;
+            max-width: 400px; 
+            background: white; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
+        }
+        .card h2 {
+            margin-top: 0;
+            margin-bottom: 20px;
+            color: #007bff;
+        }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input[type="text"], input[type="password"], select { 
+            width: 100%; 
+            padding: 10px; 
+            box-sizing: border-box; 
+            border: 1px solid #ccc; 
+            border-radius: 4px; 
+        }
+        .btn { 
+            padding: 10px 15px; 
+            color: white; 
+            border: none; 
+            border-radius: 4px; 
+            cursor: pointer; 
+            width: 100%; 
+            font-size: 16px;
+        }
+        .btn-blue { background-color: #007bff; }
+        .btn-blue:hover { background-color: #0056b3; }
+        .btn-green { background-color: #28a745; }
+        .btn-green:hover { background-color: #218838; }
+        .link { margin-top: 15px; text-align: center; font-size: 14px; }
+        .link span { color: #007bff; cursor: pointer; text-decoration: underline; }
+
+        /* --- CSS Dashboard Client & Developer --- */
+        .navbar { 
+            color: white; 
+            padding: 15px 20px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+        }
+        .bg-client { background-color: #007bff; }
+        .bg-developer { background-color: #343a40; border-bottom: 2px solid #20c997; }
+        .text-dev { color: #20c997; }
+        
+        .container { padding: 30px; }
+        .box { 
+            background: white; 
+            padding: 25px; 
+            border-radius: 8px; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05); 
+            color: #333;
+        }
+        .box-dark { background: #2c3034; color: #f8f9fa; border: 1px solid #495057; }
+        
+        .logout-btn { 
+            background-color: #dc3545; 
+            color: white; 
+            border: none; 
+            padding: 8px 15px; 
+            border-radius: 4px; 
+            cursor: pointer; 
+        }
+        .logout-btn:hover { background-color: #bd2130; }
+
+        /* Tabel Data */
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        .box-dark th, .box-dark td { border: 1px solid #495057; }
+        th { background-color: #f2f2f2; }
+        .box-dark th { background-color: #343a40; color: #20c997; }
+    </style>
+</head>
+<body>
+
+    <section id="page-login" class="page active">
+        <div class="auth-container">
+            <div class="card">
+                <h2>Login Bengkel Prabu</h2>
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label>Username</label>
+                        <input type="text" id="login-username" placeholder="Masukkan username" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" id="login-password" placeholder="Masukkan password" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Masuk Sebagai</label>
+                        <select id="login-role">
+                            <option value="client">Client / Pelanggan</option>
+                            <option value="developer">Developer / Admin</option>
+                        </select>
+                    </div>
+
+                    <button type="button" class="btn btn-blue" onclick="prosesLogin()">Login</button>
+                </form>
+                <div class="link">
+                    Belum punya akun? <span onclick="pindahHalaman('page-register')">Daftar di sini</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section id="page-register" class="page">
+        <div class="auth-container">
+            <div class="card">
+                <h2>Pendaftaran Akun</h2>
+                <form id="registerForm">
+                    <div class="form-group">
+                        <label>Username Baru</label>
+                        <input type="text" placeholder="Buat username" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" placeholder="Buat password" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Daftar Sebagai</label>
+                        <select>
+                            <option value="client">Client / Pelanggan</option>
+                            <option value="developer">Developer / Admin</option>
+                        </select>
+                    </div>
+
+                    <button type="button" class="btn btn-green" onclick="prosesDaftar()">Daftar Akun</button>
+                </form>
+                <div class="link">
+                    Sudah punya akun? <span onclick="pindahHalaman('page-login')">Login di sini</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section id="page-client" class="page">
+        <div class="navbar bg-client">
+            <h2>Dashboard Client - Bengkel Prabu</h2>
+            <button class="logout-btn" onclick="pindahHalaman('page-login')">Log Out</button>
+        </div>
+        <div class="container">
+            <div class="box">
+                <h3>Selamat Datang, Pelanggan Setia!</h3>
+                <p>Di sini Anda dapat melihat status perbaikan kendaraan Anda, riwayat servis, serta melakukan booking jadwal montir.</p>
+                <hr>
+                <h4>Status Servis Terkini:</h4>
+                <p><strong>Kendaraan:</strong> Honda Vario (B 1234 ABC)</p>
+                <p><strong>Status:</strong> <span style="color: #ffc107; font-weight: bold;">Sedang Dikerjakan</span></p>
+            </div>
+        </div>
+    </section>
+
+
+    <section id="page-developer" class="page" style="background-color: #212529; min-height: 100vh;">
+        <div class="navbar bg-developer">
+            <h2 class="text-dev">Panel Developer & Admin</h2>
+            <button class="logout-btn" onclick="pindahHalaman('page-login')">Log Out</button>
+        </div>
+        <div class="container">
+            <div class="box box-dark">
+                <h3 class="text-dev">Sistem Kendali Utama (Backend Simulator)</h3>
+                <p>Gunakan halaman ini untuk memantau database pengguna, melakukan konfigurasi API, serta memeriksa log sistem bengkel.</p>
+                
+                <h4>Data Pengguna Terdaftar</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Username</th>
+                            <th>Role Hak Akses</th>
+                            <th>Status Kendali</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Pebriansyah</td>
+                            <td>Client</td>
+                            <td style="color: #28a745;">Aktif</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Prabu_Dev</td>
+                            <td>Developer</td>
+                            <td style="color: #28a745;">Aktif</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+
+    <script>
+        // Fungsi dasar untuk pindah tampilan halaman
+        function pindahHalaman(pageId) {
+            // Sembunyikan semua section yang memiliki class 'page'
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => page.classList.remove('active'));
+            
+            // Tampilkan section yang dituju
+            document.getElementById(pageId).classList.add('active');
+        }
+
+        // Fungsi Simulasi Login
+        function prosesLogin() {
+            const role = document.getElementById('login-role').value;
+            
+            if (role === 'client') {
+                pindahHalaman('page-client');
+            } else if (role === 'developer') {
+                pindahHalaman('page-developer');
+            }
+        }
+
+        // Fungsi Simulasi Daftar Berhasil
+        function prosesDaftar() {
+            alert('Pendaftaran Berhasil! Silahkan login.');
+            pindahHalaman('page-login');
+        }
+    </script>
+
+</body>
+</html>
